@@ -14,7 +14,7 @@ async function initializeMyMatchesView(nickname, elements) {
     paginationContainerElement,
   } = elements;
 
-  if (pageTitleElement) pageTitleElement.textContent = "신청한 매칭";
+  if (pageTitleElement) pageTitleElement.textContent = "매칭 현황";
   if (searchSectionElement) searchSectionElement.style.display = "none";
   if (filterSectionElement) filterSectionElement.classList.remove("hidden");
 
