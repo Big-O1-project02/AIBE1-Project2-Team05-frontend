@@ -24,8 +24,8 @@ async function initializeReceivedReviewsView(nickname, elements) {
     // 정렬 옵션
     const sortOptions = [
         { display: "최신순", value: "recent" },
-        { display: "높은 평점순", value: "high" },
-        { display: "낮은 평점순", value: "low" }
+        // { display: "높은 평점순", value: "high" },
+        // { display: "낮은 평점순", value: "low" }
     ];
 
     // 정렬 버튼 UI 설정
