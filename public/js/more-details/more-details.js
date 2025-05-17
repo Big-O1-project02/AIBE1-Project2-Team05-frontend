@@ -116,9 +116,6 @@ function setupPageByType(type) {
     case 'interest-qna': // 추천 QnA
       callInitializer(window.initializeInterestQnAView, type);
       break;
-    case 'reviews': // 멘토가 받은 리뷰
-      callInitializer(window.initializeReceivedReviewsView, type);
-      break;
     default:
       if (pageTitleElement) pageTitleElement.textContent = '알 수 없는 페이지';
       displayMessage(
