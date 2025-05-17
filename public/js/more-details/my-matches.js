@@ -126,8 +126,7 @@ async function initializeMyMatchesView(nickname, elements) {
         if (itemsOnPage === 0 && page === 0) pageInfo.isLast = true;
       }
       currentPage = pageInfo.number;
-      const role = await roleCheck();
-      renderMatchesList(matchesData, role);
+      renderMatchesList(matchesData);
 
       if (pageInfo.totalPages > 1 && paginationContainerElement) {
         setupCommonPagination(paginationContainerElement, pageInfo, (newPage) => {
@@ -142,40 +141,24 @@ async function initializeMyMatchesView(nickname, elements) {
   }
 
   // 매칭 목록 렌더링
-  function renderMatchesList(matches, role) {
+  function renderMatchesList(matches) {
     if (!contentListElement) return;
 
     if (!matches || matches.length === 0) {
-      let noDataMessage
-      if (role === "ROLE_MENTEE") {
-        noDataMessage = "신청한 매칭이 없습니다.";
-      } else if(role === "ROLE_MENTOR") {
-        noDataMessage = "현재 진행중인 매칭이 없습니다."
-      }
+
+      let noDataMessage = "신청한 매칭이 없습니다.";
       if (currentFilter && currentFilter !== "ALL") {
         noDataMessage = "선택한 조건에 맞는 매칭이 없습니다.";
       }
       displayMessage(contentListElement, noDataMessage, "no-data");
       // 재능 기부 찾기 버튼 (기존 my-matches.js 참고)
 
-      let roleMessage
-      let roleBtnMessage
-      let roleLink
-      if (role === "ROLE_MENTEE") {
-        roleMessage = "재능 기부 페이지에서 관심있는 멘토를 찾아보세요!"
-        roleBtnMessage = "재능 기부 찾기"
-        roleLink = "/matching-type-selection"
-      }  else if(role === "ROLE_MENTOR") {
-        roleMessage = "재능 기부 페이지에서 재능을 기부해보세요!"
-        roleBtnMessage = "재능 기부등록 페이지로 가기"
-        roleLink = "/newPost"
-      }
 
       const findTalentButtonHtml = `
         <div class="text-center mt-6">
-          <p class="text-gray-500 dark:text-gray-400 mt-1 mb-4">${roleMessage}</p>
-          <a href=${roleLink} class="inline-block px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
-            ${roleBtnMessage}
+          <p class="text-gray-500 dark:text-gray-400 mt-1 mb-4">재능 기부 페이지에서 관심있는 멘토를 찾아보세요!</p>
+          <a href=/matching-type-selection class="inline-block px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
+            재능 기부 찾기
           </a>
         </div>`;
       contentListElement.innerHTML += findTalentButtonHtml;
@@ -352,23 +335,6 @@ async function initializeMyMatchesView(nickname, elements) {
   // 초기 설정 및 데이터 로드
   setupFiltersUI();
   loadAndRenderData(currentPage);
-}
-async function roleCheck() {
-  const response = await fetch("/api/v1/authUser/me", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    credentials: "include",
-  });
-  if (response.status === 401) {
-    return window.handle401Error(() => roleCheck());
-  }
-  const result = await response.json();
-  if (result.code === "SUCCESS") {
-    return result.data.role;
-  }
-  window.location.href = "/login";
 }
 // 전역 스코프에 노출
 window.initializeMyMatchesView = initializeMyMatchesView;
