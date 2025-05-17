@@ -188,7 +188,7 @@ async function initializeOngoingMatchesView(mentorNickname, elements) {
             }
           </div>
 
-          <div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-4 flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
+            <div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-4 flex flex-col items-start sm:items-end gap-2 w-auto">
             ${
               contactLink
                 ? `
